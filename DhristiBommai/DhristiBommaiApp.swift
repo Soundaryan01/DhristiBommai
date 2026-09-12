@@ -107,6 +107,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         setupMenu()
     }
+    
+    @objc
+    private func quitApp() {
+        NSApplication.shared.terminate(nil)
+    }
 
     private func setupMenu() {
 
@@ -173,6 +178,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(charmMenuItem)
 
         statusItem?.menu = menu
+        
+        menu.addItem(.separator())
+
+        let quitItem = NSMenuItem(
+            title: "Quit Dhristi Bommai",
+            action: #selector(quitApp),
+            keyEquivalent: "q"
+        )
+
+        quitItem.target = self
+
+        menu.addItem(quitItem)
     }
 
     // MARK: - Charm Window
