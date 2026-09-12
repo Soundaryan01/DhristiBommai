@@ -3,12 +3,34 @@ import SwiftUI
 struct ContentView: View {
 
     let charm: Charm
+    let customImagePath: URL?
 
     @State private var model = DangleModel()
 
     private let beadsWidth: CGFloat = 28
-    private let faceSize: CGFloat = 105
+    private let faceSize: CGFloat = 115
+    let canvasWidth: CGFloat = 300
 
+    @ViewBuilder
+    private var charmImage: some View {
+
+        if let customImagePath,
+           let nsImage = NSImage(
+               contentsOf: customImagePath
+           ) {
+
+            Image(nsImage: nsImage)
+                .resizable()
+                .scaledToFit()
+
+        } else {
+
+            Image(charm.imageName)
+                .resizable()
+                .scaledToFit()
+        }
+    }
+    
     var body: some View {
 
         GeometryReader { geometry in
@@ -49,9 +71,7 @@ struct ContentView: View {
 
                 if let bottom = model.points.last {
 
-                    Image(charm.imageName)
-                        .resizable()
-                        .scaledToFit()
+                    charmImage
                         .frame(
                             width: faceSize,
                             height: faceSize
